@@ -14,20 +14,24 @@ _____________________________DEMONWARE COMPANION______________________________**
 **
 ************************************************************************************/
 #include "stdinc.h"
+#define DEBUG
 
 std::map<std::string, uintptr_t> ModernWarfareRemastered::dwFileTaskList;
 
 void ModernWarfareRemastered::StartUpExtraction(ProcHex process)
 {
-	dwFileTaskList.insert({ "g_fetchPlaylistsFileTask", 0x3432680 });
-	dwFileTaskList.insert({ "g_fetchFFotDFileTask", 0xA9BC9D0 });
-	dwFileTaskList.insert({ "g_fetchMotdFileTask", 0xAA759D0 });
-	dwFileTaskList.insert({ "g_downloadStoreConfig", 0x35ACE70 });
+	dwFileTaskList.insert({ "g_fetchPlaylistsFileTask", 0x143432680 });
+	dwFileTaskList.insert({ "g_fetchFFotDFileTask", 0x14A9BC9D0 });
+	dwFileTaskList.insert({ "g_fetchMotdFileTask", 0x14AA759D0 });
+	dwFileTaskList.insert({ "g_downloadStoreConfig", 0x1435ACE70 });
+	dwFileTaskList.insert({ "commondata", 0x14342C280 });
+	dwFileTaskList.insert({ "metplayerdata", 0x143438A30 });
 
 
-	for (auto const& pair : dwFileTaskList) {
+	for (auto const& pair : dwFileTaskList) 
+	{
 		dwFileTask* fileTask = new dwFileTask{};
-		if (process.ReadMemory(process.ElevateByBase(pair.second), fileTask, sizeof(dwFileTask)))
+		if (process.ReadMemory(pair.second, fileTask, sizeof(dwFileTask)))
 		{
 			std::string filename_str = process.ReadString(reinterpret_cast<uint64_t>(fileTask->m_filename));
 
@@ -44,7 +48,7 @@ void ModernWarfareRemastered::StartUpExtraction(ProcHex process)
 
 #ifdef DEBUG
 			if (fileTask->m_error) printf("** %i ** ", fileTask->m_error);
-			printf("%s: %llX\n\n", pair.first.c_str(), process.ElevateByBase(pair.second));
+			printf("%s: %llX\n\n", pair.first.c_str(), pair.second);
 
 			printf("%s->m_file: %s(%i)\n", pair.first.c_str(), process.ReadString(reinterpret_cast<uint64_t>(fileTask->m_filename)).data(), fileTask->m_fileSize);
 			printf("%s->m_dataResult: %p(%i)\n", pair.first.c_str(), fileTask->m_dataResult.m_fileData, fileTask->m_dataResult.m_fileSize);

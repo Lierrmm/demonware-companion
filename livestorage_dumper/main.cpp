@@ -38,6 +38,7 @@ void print_error(procces_fetch_error err, std::string extra_info = "")
 void InitializeSupportedTitlesList()
 {
 	SupportedTitlesList.insert({ "h1_mp64_ship.exe", &ModernWarfareRemastered::StartUpExtraction });
+	SupportedTitlesList.insert({ "h2m-mod.exe", &ModernWarfareRemastered::StartUpExtraction });
 	SupportedTitlesList.insert({ "s2_mp64_ship.exe", &WorldWarII::StartUpExtraction });
 	SupportedTitlesList.insert({ "BlackOps3.exe", &BlackOps3::StartUpExtraction });
 	SupportedTitlesList.insert({ "iw7_ship.exe", &InfiniteWarfare::StartUpExtraction });	

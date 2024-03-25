@@ -18,7 +18,7 @@ _____________________________DEMONWARE COMPANION______________________________**
 #include "utilities.h"
 #include <format>
 
-//#define DUMP_BINARY_DATA
+#define DUMP_BINARY_DATA
 
 unsigned int Discovery_getDataTypeSize(char type)
 {
